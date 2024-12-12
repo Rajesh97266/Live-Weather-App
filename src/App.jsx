@@ -50,10 +50,7 @@ function App() {
       console.error("Error fetching weather data:", error);
       setCityNotFound(true); // Treat as city not found in case of API error
     } finally {
-      // Add a short delay to show the loader
-      setTimeout(() => {
-        setLoading(false);
-      }, 5000); // 500ms delay
+      setLoading(false);
     }
   };
 
