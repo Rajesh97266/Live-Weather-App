@@ -1,35 +1,38 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import SearchIcon from "./images/weather/search-icon.svg"
+import Sunny from "./images/weather/sunny.svg"
+import Drizzle from "./images/weather/sleet.svg"
+import Rain from "./images/weather/rain.svg"
+import Wind from "./images/weather/wind-icon.svg"
+import Snow from "./images/weather/snow.svg"
+import Humidity from "./images/weather/humidity-icon.svg"
+import Pressure from "./images/weather/pressure-icon.svg"
+import Cloud from "./images/weather/cloudy.svg"
+import WeatherDetails from './components/WeatherDetails'
+
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
+  const [icon, setIcon] = useState(Sunny)
+  const [temp ,setTemp] = useState(0)
+  const [city ,setCity] = useState("Chennai")
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container">
+        <div className="input-container ">
+          <input type="text" placeholder="Enter City" className="cityInput" />
+          <div>
+            <img src={SearchIcon} alt="search-icon" className="search-icon" />
+          </div>
+        </div>
+
+        <WeatherDetails icon={icon} temp={temp} city={city}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
 export default App
