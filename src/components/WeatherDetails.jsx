@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Humidity from "../images/weather/humidity-icon.svg"
 import Wind from "../images/weather/wind-icon.svg"
-const WeatherDetails = ({ icon, temp, city, country, lat, log }) => {
+const WeatherDetails = ({ icon, temp, city, country, lat, log , humidity ,wind }) => {
   return (
     <>
       <div className="image">
@@ -24,14 +24,14 @@ const WeatherDetails = ({ icon, temp, city, country, lat, log }) => {
         <div className="element">
           <img src={Humidity} alt="humidity" className="icon" />
           <div className="data">
-            <div className="humidity-percent">85%</div>
+            <div className="humidity-percent">{humidity}%</div>
             <div className="text">Humidity</div>
           </div>
         </div>
         <div className="element">
           <img src={Wind} alt="wind" className="icon" />
           <div className="data">
-            <div className="humidity-percent">5 km/h</div>
+            <div className="humidity-percent">{wind} km/h</div>
             <div className="text">Wind Speed</div>
           </div>
         </div>

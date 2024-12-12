@@ -145,3 +145,14 @@ body {
   font-weight: 600;
   color: #888;
 }
+
+.design {
+  text-align: center;
+  margin-top: 20px;
+  color: #888;
+}
+
+.design span {
+  color: #333;
+  font-weight: 600;
+}
