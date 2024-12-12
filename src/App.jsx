@@ -16,49 +16,26 @@ function App() {
   const [wind, setWind] = useState(0);
   const [text, setText] = useState("Chennai");
 
-  const [cityNotFound, setCityNotFound] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [cityNotFound, setCityNotFound] = useState(false); // Track invalid city
+  const [loading, setLoading] = useState(false); // Track loading state
 
   const handleCity = (e) => {
     setText(e.target.value);
   };
 
-  useEffect(() => { 
-    ApiData(text).then((data) => {  
-      setTemp(data.main.temp);
-      setCity(data.name);
-      setCountry(data.sys.country);
-      setLat(data.coord.lat);
-      setLog(data.coord.lon);
-      setHumidity(data.main.humidity);
-      setWind(data.wind.speed);
-      setIcon(
-        `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-      );  
-    });  
-  }, []);
+  const fetchWeather = async (city) => {
+    setLoading(true); // Start loading
+    setCityNotFound(false); // Reset city not found
+    try {
+      const data = await ApiData(city);
+      if (data.cod === "404") {
+        // Handle invalid city case
+        setCityNotFound(true);
+        setLoading(false);
+        return;
+      }
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      ApiData(text).then((data) => {
-        setTemp(data.main.temp);
-        setCity(data.name);
-        setCountry(data.sys.country);
-        setLat(data.coord.lat);
-        setLog(data.coord.lon);
-        setHumidity(data.main.humidity);
-        setWind(data.wind.speed);
-        setIcon(
-          `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-        );
-      });
-      setText("");
-    }
-  };
-
-  const handleSearch = () => {
-    ApiData(text).then((data) => {
-      
+      // Update state with valid data
       setTemp(data.main.temp);
       setCity(data.name);
       setCountry(data.sys.country);
@@ -69,7 +46,27 @@ function App() {
       setIcon(
         `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
       );
-    });
+    } catch (error) {
+      console.error("Error fetching weather data:", error);
+      setCityNotFound(true); // Treat as city not found in case of API error
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  useEffect(() => {
+    fetchWeather(text); // Fetch weather on initial load
+  }, []);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      fetchWeather(text);
+      setText("");
+    }
+  };
+
+  const handleSearch = () => {
+    fetchWeather(text);
     setText("");
   };
 
@@ -95,16 +92,26 @@ function App() {
           </div>
         </div>
 
-        <WeatherDetails
-          icon={icon}
-          temp={temp}
-          city={city}
-          country={country}
-          lat={lat}
-          log={log}
-          humidity={humidity}
-          wind={wind}
-        />
+        {/* Show loading or city not found messages */}
+        {loading && <p className="loading">Loading...</p>}
+        {cityNotFound && (
+          <p className="error">City not found. Please try again.</p>
+        )}
+
+        {/* Render WeatherDetails only if not loading or city not found */}
+        {!loading && !cityNotFound && (
+          <WeatherDetails
+            icon={icon}
+            temp={temp}
+            city={city}
+            country={country}
+            lat={lat}
+            log={log}
+            humidity={humidity}
+            wind={wind}
+          />
+        )}
+
         <p className="design">
           Designed by <span>Rajesh Mahendran</span>
         </p>
