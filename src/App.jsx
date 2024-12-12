@@ -19,6 +19,9 @@ function App() {
   const [icon, setIcon] = useState(Sunny)
   const [temp ,setTemp] = useState(0)
   const [city ,setCity] = useState("Chennai")
+  const [country ,setCountry] = useState("India")
+  const [lat ,setLat] = useState(0)
+  const [log ,setLog] = useState(0)
   return (
     <>
       <div className="container">
@@ -29,7 +32,7 @@ function App() {
           </div>
         </div>
 
-        <WeatherDetails icon={icon} temp={temp} city={city}/>
+        <WeatherDetails icon={icon} temp={temp} city={city} country={country} lat={lat} log={log} />
       </div>
     </>
   );
