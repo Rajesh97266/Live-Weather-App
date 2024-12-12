@@ -50,7 +50,10 @@ function App() {
       console.error("Error fetching weather data:", error);
       setCityNotFound(true); // Treat as city not found in case of API error
     } finally {
-      setLoading(false); // Stop loading
+      // Add a short delay to show the loader
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000); // 500ms delay
     }
   };
 
@@ -73,7 +76,7 @@ function App() {
   return (
     <>
       <div className="container">
-        <div className="input-container ">
+        <div className="input-container">
           <input
             type="text"
             placeholder="Enter City"
@@ -93,24 +96,22 @@ function App() {
         </div>
 
         {/* Show loading or city not found messages */}
-        {loading && <p className="loading">Loading...</p>}
         {cityNotFound && (
           <p className="error">City not found. Please try again.</p>
         )}
 
-        {/* Render WeatherDetails only if not loading or city not found */}
-        {!loading && !cityNotFound && (
-          <WeatherDetails
-            icon={icon}
-            temp={temp}
-            city={city}
-            country={country}
-            lat={lat}
-            log={log}
-            humidity={humidity}
-            wind={wind}
-          />
-        )}
+        {/* Render WeatherDetails, passing loading state */}
+        <WeatherDetails
+          icon={icon}
+          temp={temp}
+          city={city}
+          country={country}
+          lat={lat}
+          log={log}
+          humidity={humidity}
+          wind={wind}
+          loading={loading}
+        />
 
         <p className="design">
           Designed by <span>Rajesh Mahendran</span>
